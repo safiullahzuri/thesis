@@ -21,6 +21,33 @@ class DoctorController extends CI_Controller
         redirect('DoctorController/myAppointments');
     }
 
+    function backupDatabase(){
+        $this->load->dbutil();
+        $prefs = array(
+            "format" => "zip",
+            "filename" => "my_db_backup.sql"
+        );
+
+        $backup = & $this->dbutil->backup($prefs);
+        $db_name = 'backup-on-'.date('Y-m-d-H-i-s').'.zip';
+        $save = './uploads/backups/'.$db_name;
+
+        $userId = $this->session->userdata("id");
+        $userType = $this->session->userdata("userType");
+
+        if ($this->BackupModel->addBackup($db_name, $userId, $userType)){
+
+            write_file($save, $backup);
+            force_download($db_name, $backup);
+        }else{
+            echo '<script>alert("Sorry! Could not back up your database.");</script>';
+        }
+    }
+
+
+
+
+
     function myAllDiagnosis(){
         $myAllDiagnosis = $this->DiagnosisModel->getAllDiagnosisByDoctor($this->doctor_id);
         echo json_encode($myAllDiagnosis);

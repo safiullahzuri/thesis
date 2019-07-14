@@ -11,6 +11,7 @@
 <?php $this->load->view("doctor/navigation"); ?>
 
 <div class="container container-fluid">
+    <a class="btn btn-info" href="<?php echo base_url(); ?>DoctorController/backupDatabase">Backup Database</a>
     <div class="col-md-10">
         <table class="table table-striped table-active table-bordered">
             <thead>
@@ -175,6 +176,7 @@
             });
 
         });
+
 
 
 

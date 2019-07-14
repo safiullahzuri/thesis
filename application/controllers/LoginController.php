@@ -51,9 +51,56 @@ class LoginController extends CI_Controller{
     }
 
     function logout(){
+        $userId = $this->session->userdata("id");
+        $userType = $this->session->userdata("userType");
+        $this->checkForBackup($userId, $userType);
         $this->session->sess_destroy();
         redirect("LoginController/login");
     }
+
+    function checkForBackup($userId, $userType){
+        if ($userType == 'doctor'){
+            if (!$this->BackupModel->gotBackupForLastTwoWeeks($userId, $userType)){
+                $this->backupDatabase();
+            }
+        }
+    }
+
+    function backupDatabase(){
+        $this->load->dbutil();
+        $prefs = array(
+            "format" => "zip",
+            "filename" => "my_db_backup.sql"
+        );
+
+        $backup = & $this->dbutil->backup($prefs);
+        $db_name = 'backup-on-'.date('Y-m-d-H-i-s').'.zip';
+        $save = './uploads/backups/'.$db_name;
+
+        $userId = $this->session->userdata("id");
+        $userType = $this->session->userdata("userType");
+
+        if ($this->BackupModel->addBackup($db_name, $userId, $userType)){
+
+            write_file($save, $backup);
+            force_download($db_name, $backup);
+        }else{
+            echo '<script>alert("Sorry! Could not back up your database.");</script>';
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
