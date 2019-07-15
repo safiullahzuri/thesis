@@ -23,6 +23,8 @@ class DiagnosisModel extends CI_Model
         }
     }
 
+
+
     function isDiagnosisForAppointment($appointment_id){
         $this->db->where("appointment_id", $appointment_id);
         $this->db->from("diagnosis");

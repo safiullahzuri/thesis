@@ -55,20 +55,23 @@ class ReportController extends CI_Controller
         $config['smtp_port']           = "465";
         $config['smtp_user']           = "hanif.safi9@gmail.com";
         $config['smtp_pass']           = "suheyb123suheyb123";
-        $config['mailtype'] = 'html';
-        $config['charset']  = 'utf-8';
-        $config['newline']  = "\r\n";
-        $config['wordwrap'] = TRUE;
+        $config['mailtype']            = 'html';
+        $config['charset']             = 'utf-8';
+        $config['newline']             = "\r\n";
+        $config['wordwrap']            = TRUE;
 
         $this->load->library('email');
 
         $this->email->initialize($config);
 
-        $this->email->from("hanif.safi9@gmail.com", "safiullah zuri");
+        $this->email->from("hanif.safi9@gmail.com", "Safiullah Zuri");
         $this->email->to($recipients);
 
-        $this->email->subject('Теst Email');
-        $this->email->message("some message here");
+        $this->email->subject('Diagnosis Docuents');
+
+        $message = '<html><head></head><body><h1>Dear'.getPatientsNameFromAppointment($appointment_id).'</h1><p>Please receive your diagnosis with your scans.</p></body></html>';
+
+        $this->email->message($message);
 
         if ($this->email->attach($zip_location)){
             echo "attached";
@@ -86,12 +89,12 @@ class ReportController extends CI_Controller
 
     function generateReportPdf($appointment_id){
         $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
-        $pdf->SetTitle('My Title');
+        $pdf->SetTitle('Diagnosis Report');
         $pdf->SetHeaderMargin(30);
         $pdf->SetTopMargin(20);
         $pdf->setFooterMargin(20);
         $pdf->SetAutoPageBreak(true);
-        $pdf->SetAuthor('Author');
+        $pdf->SetAuthor('Safiullah Zuri');
         $pdf->SetDisplayMode('real', 'default');
 
         // hard coded data
@@ -100,18 +103,38 @@ class ReportController extends CI_Controller
 
         $pdf->AddPage();
 
-        // output the HTML content
-        $pdf->writeHTML(file_get_contents($this->DiagnosisModel->getDiagnosisPath($appointment_id)), true, false, true, false, '');
+        $patientId = $this->PatientModel->getPatientFromAppointment($appointment_id);
+        $html = '<html><body><div class="container container-fluid">
+                    <div class="row">
+                        <div class="col-md-8 align-items-center align-content-center">
+                            <h1>Diagnosis Report For '.getPatientsName($patientId).'</h1>
+                            <img src="'.$this->PatientModel->getPatientImagePath($patientId).'">
+                        </div>
+                    </div>
+
+                 </div>';
+
+        $html .= '<div class="row"><div class="col-md-8 align-content-center align-items-center">
+                        <div class="alert alert-info">The Following diagnosis has been made with regards to the problems associated with the following scans.</div>
+                        <div class="jumbotron">'.file_get_contents($this->DiagnosisModel->getDiagnosisPath($appointment_id)).'</div>
+                  </div></div>';
+        $scans_location = $_SERVER["DOCUMENT_ROOT"]."pacs/uploads/scans/";
+
+        $scans = $this->ScanModel->getAllScans($appointment_id);
+
+        $html .= '<div class="row"><div class="col-md-8 align-items-center align-content-center">';
+
+        foreach ($scans as $scan){
+            $html.= '<img class="thumbnail" width="75" height="75" src="'.$scans_location.$scan->file_name.'">';
+        }
+
+        $html .= '<div class="row"><div class="col-md-8 footer"><span>Signature</span><img class="pull-right" src="'.$doctor_picture.'" /> </div>';
+
+        $html  .= '</div></div></body></html>';
 
 
-        $imageCopy = ' <br> Patient Image';
-        $imageCopy .= '<img src="'.$patient_picture.'"  width="100" height="100">';
-        $imageCopy .= '<br> Doctor Image';
-        $imageCopy .= '<img src="'.$doctor_picture.'"  width="100" height="100">';
+        $pdf->writeHTML($html, true, 0, true, 0);
 
-        $pdf->writeHTML($imageCopy, true, 0, true, 0);
-
-        ob_clean();
         $file_location_name = $_SERVER["DOCUMENT_ROOT"]."pacs/uploads/reports/".time().'.pdf';
 
         $pdf->Output($file_location_name, 'F');
@@ -132,19 +155,44 @@ class ReportController extends CI_Controller
         $pdf->SetAuthor('Author');
         $pdf->SetDisplayMode('real', 'default');
 
-        $patient_picture = $this->PatientModel->getPatientImagePath($this->PatientModel->getPatientFromAppointment($appointment_id));
+        $patientId = $this->PatientModel->getPatientFromAppointment($appointment_id);
+
+        $patient_picture = $this->PatientModel->getPatientImagePath($patientId);
         $doctor_picture = $this->DoctorModel->getDoctorImagePath($this->DoctorModel->getDoctorFromAppointment($appointment_id));
 
         $pdf->AddPage();
         // output the HTML content
-        $pdf->writeHTML(file_get_contents($this->DiagnosisModel->getDiagnosisPath($appointment_id)), true, false, true, false, '');
 
-        $imageCopy = ' <br> Patient Image';
-        $imageCopy .= '<img src="'.$patient_picture.'"  width="100" height="100">';
-        $imageCopy .= '<br> Doctor Image';
-        $imageCopy .= '<img src="'.$doctor_picture.'"  width="100" height="100">';
+        $html = '<html><body><div class="container container-fluid">
+                    <div class="row">
+                        <div class="col-md-8 align-items-center align-content-center">
+                            <h1>Diagnosis Report For '.getPatientsName($patientId).'</h1>
+                            <img width="100" height="100" src="'.$this->PatientModel->getPatientImagePath($patientId).'">
+                        </div>
+                    </div>
 
-        $pdf->writeHTML($imageCopy, true, 0, true, 0);
+                 </div>';
+
+        $html .= '<div class="row"><div class="col-md-8 align-content-center align-items-center">
+                        <div class="alert alert-info">The Following diagnosis has been made with regards to the problems associated with the following scans.</div>
+                        <div class="jumbotron">'.file_get_contents($this->DiagnosisModel->getDiagnosisPath($appointment_id)).'</div>
+                  </div></div>';
+        $scans_location = $_SERVER["DOCUMENT_ROOT"]."pacs/uploads/scans/";
+
+        $scans = $this->ScanModel->getAllScans($appointment_id);
+
+        $html .= '<div class="row"><div class="col-md-8 align-items-center align-content-center">';
+
+        foreach ($scans as $scan){
+            $html.= '<img class="thumbnail" width="75" height="75" src="'.$scans_location.$scan->file_name.'">';
+        }
+
+        $html .= '<div class="row"><div class="col-md-8 footer"><span>Signature</span><img width="100" height="100" class="pull-right" src="'.$doctor_picture.'" /> </div>';
+
+        $html  .= '</div></div></body></html>';
+
+
+        $pdf->writeHTML($html, true, 0, true, 0);
 
         $file_location_name = $_SERVER["DOCUMENT_ROOT"]."pacs/uploads/reports/".time().'.pdf';
 

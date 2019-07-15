@@ -11,7 +11,7 @@ class BackupModel extends CI_Model
 
     function addBackup($backupAddress, $userId, $userType){
         $backupData = array("backup_date" => date('Y-m-d'), "backup_address" => $backupAddress, "user_id" => $userId, "user_type" => $userType );
-        if ($this->db->insert('backup', $backupData)){
+        if ($this->db->insert('backups', $backupData)){
             return true;
         }else{
             return false;
@@ -40,7 +40,7 @@ class BackupModel extends CI_Model
         $this->db->where("user_id", $userId);
         $this->db->where("user_type", $userType);
         $this->db->select("backup_date");
-        $this->db->from('backup');
+        $this->db->from('backups');
         $query = $this->db->get();
         if ($query->num_rows() > 0){
             return $query->row()->backup_date;

@@ -26,17 +26,17 @@ class DoctorsAPI extends CI_Controller
     function edit(){
         $doctor_id = $this->input->post("doctor_id");
         $username = $this->input->post("username");
-        $password = $this->input->post("password");
-        $firstname = $this->input->post("firstname");
-        $lastname = $this->input->post("lastname");
+        $password = md5($this->input->post("password"));
+        $firstname = encrypt($this->input->post("firstname"));
+        $lastname = encrypt($this->input->post("lastname"));
         $dob = $this->input->post("dob");
         $city = $this->input->post("city");
         $street = $this->input->post("street");
         $email = $this->input->post("email");
-        $postcode = $this->input->post("postCode");
+        $postcode = encrypt($this->input->post("postCode"));
         $phoneNo = $this->input->post("phoneNo");
 
-        $newImage = $this->input->post("newImage");
+        $newImage = encrypt($this->input->post("newImage"));
 
         if ($newImage == "true"){
             //TODO: upload new image and update the record
@@ -88,14 +88,14 @@ class DoctorsAPI extends CI_Controller
 
     function register(){
         $username = $this->input->post("username");
-        $password = $this->input->post("password");
-        $firstname = $this->input->post("firstname");
-        $lastname = $this->input->post("lastname");
+        $password = md5($this->input->post("password"));
+        $firstname = encrypt($this->input->post("firstname"));
+        $lastname = encrypt($this->input->post("lastname"));
         $dob = $this->input->post("dob");
         $city = $this->input->post("city");
         $street = $this->input->post("street");
         $email = $this->input->post("email");
-        $postcode = $this->input->post("postCode");
+        $postcode = encrypt($this->input->post("postCode"));
         $phoneNo = $this->input->post("phoneNo");
 
         if (!$this->upload->do_upload("image")) {
@@ -104,7 +104,7 @@ class DoctorsAPI extends CI_Controller
             $imageData = $this->upload->data();
             //call the model method
 
-            $imageName = $imageData["file_name"];
+            $imageName = encrypt($imageData["file_name"]);
 
             $doctorData = array("username"=>$username, "password" => $password, "firstname" => $firstname, "lastname" => $lastname, "dob" => $dob, "city" => $city, "street" => $street,
                 "email" => $email, "postCode" => $postcode, "phoneNo" => $phoneNo, "image" => $imageName

@@ -34,8 +34,8 @@ class AdminAPI extends CI_Controller
 
                 $imageName = $_FILES['image']['name'];
 
-                $doctorData = array("username"=>$username, "firstname" => $firstname, "lastname" => $lastname,
-                    "image" => $imageName
+                $doctorData = array("username"=>$username, "firstname" => encrypt($firstname), "lastname" => encrypt($lastname),
+                    "image" => encrypt($imageName)
                 );
 
                 if ($this->AdminModel->editAdmin($admin_id, $doctorData)){
@@ -46,7 +46,7 @@ class AdminAPI extends CI_Controller
             }
         }else{
             //TODO: just update the record and do not change the previous path to image
-            $doctorData = array("username"=>$username, "firstname" => $firstname, "lastname" => $lastname
+            $doctorData = array("username"=>$username, "firstname" => encrypt($firstname), "lastname" => encrypt($lastname)
             );
             if ($this->AdminModel->editAdmin($admin_id, $doctorData)){
                 echo "Edited successfully";
@@ -81,8 +81,8 @@ class AdminAPI extends CI_Controller
 
             $imageName = $imageData["file_name"];
 
-            $adminData = array("username"=>$username, "password" => $password, "firstname" => $firstname, "lastname" => $lastname,
-                "image" => $imageName
+            $adminData = array("username"=>$username, "password" => md5($password), "firstname" => encrypt($firstname), "lastname" => encrypt($lastname),
+                "image" => encrypt($imageName)
             );
 
             if ($this->m->addAdmin($adminData)) {

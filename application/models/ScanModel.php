@@ -21,13 +21,21 @@ class ScanModel extends CI_Model
         $this->db->where("appointment_id", $appointment_id);
         $this->db->from("scan");
         $query = $this->db->get();
-        return $query->result();
+        $scans = $query->result();
+        foreach ($scans as $scan){
+            $scan->file_name = decrypt($scan->file_name);
+        }
+        return $scans;
     }
 
     function getScansForAppointment($appointment_id){
         $this->db->where("appointment_id", $appointment_id);
         $this->db->from("scan");
-        return $this->db->get()->result();
+        $scans = $this->db->get()->result();
+        foreach ($scans as $scan){
+            $scan->file_name = decrypt($scan->file_name);
+        }
+        return $scans;
     }
 
     //get scans for patient

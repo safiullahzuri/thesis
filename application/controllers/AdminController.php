@@ -99,9 +99,9 @@ class AdminController extends CI_Controller
 
         $admin_id = $this->input->post("admin_id");
         $username = $this->input->post("username");
-        $firstname = $this->input->post("firstname");
-        $lastname = $this->input->post("lastname");
-        $newImage = $this->input->post("newImage");
+        $firstname = encrypt($this->input->post("firstname"));
+        $lastname = encrypt($this->input->post("lastname"));
+        $newImage = encrypt($this->input->post("newImage"));
 
         if ($newImage == "true"){
             //TODO: upload new image and update the record
@@ -148,9 +148,9 @@ class AdminController extends CI_Controller
     function createAdmin(){
 
         $username = $this->input->post("username");
-        $password = $this->input->post("password");
-        $firstname = $this->input->post("firstname");
-        $lastname = $this->input->post("lastname");
+        $password = md5($this->input->post("password"));
+        $firstname = encrypt($this->input->post("firstname"));
+        $lastname = encrypt($this->input->post("lastname"));
 
         if (!$this->upload->do_upload("image")) {
             echo $this->upload->display_errors();

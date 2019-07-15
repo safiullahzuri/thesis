@@ -105,18 +105,17 @@ class PatientController extends CI_Controller
     {
         $patient_id = $this->input->post("patient_id");
         $username = $this->input->post("username");
-        $password = $this->input->post("password");
-        $firstname = $this->input->post("firstname");
-        $lastname = $this->input->post("lastname");
+        $firstname = encrypt($this->input->post("firstname"));
+        $lastname = encrypt($this->input->post("lastname"));
         $job = $this->input->post("job");
         $dob = $this->input->post("dob");
         $city = $this->input->post("city");
         $street = $this->input->post("street");
         $email = $this->input->post("email");
-        $postcode = $this->input->post("postCode");
+        $postcode = encrypt($this->input->post("postCode"));
         $phoneNo = $this->input->post("phoneNo");
 
-        $newImage = $this->input->post("newImage");
+        $newImage = encrypt($this->input->post("newImage"));
 
         if ($newImage == "true"){
             //TODO: upload new image and update the record
@@ -128,11 +127,11 @@ class PatientController extends CI_Controller
 
                 $imageName = $_FILES['image']['name'];
 
-                $patientData = array("username"=>$username, "password" => $password, "firstname" => $firstname, "lastname" => $lastname, "job" => $job, "dob" => $dob, "city" => $city, "street" => $street,
+                $patientData = array("username"=>$username, "firstname" => $firstname, "lastname" => $lastname, "job" => $job, "dob" => $dob, "city" => $city, "street" => $street,
                     "email" => $email, "postCode" => $postcode, "phoneNo" => $phoneNo, "image" => $imageName
                 );
 
-                if ($this->m->editPatient($patient_id, $patientData)){
+                if ($this->PatientModel->editPatient($patient_id, $patientData)){
                     echo "Edited successfully";
                 }else{
                     echo "Could not edit";
@@ -144,10 +143,10 @@ class PatientController extends CI_Controller
 
         }else{
             //TODO: just update the record and do not change the previous path to image
-            $newPatientData = array("username"=>$username, "password" => $password, "firstname" => $firstname, "lastname" => $lastname, "job" => $job, "dob" => $dob, "city" => $city, "street" => $street,
+            $newPatientData = array("username"=>$username, "firstname" => $firstname, "lastname" => $lastname, "job" => $job, "dob" => $dob, "city" => $city, "street" => $street,
                 "email" => $email, "postCode" => $postcode, "phoneNo" => $phoneNo
             );
-            if ($this->m->editPatient($patient_id, $newPatientData)){
+            if ($this->PatientModel->editPatient($patient_id, $newPatientData)){
                 echo "Edited successfully";
             }else{
                 echo "Could not edit";
@@ -168,7 +167,7 @@ class PatientController extends CI_Controller
     function patient()
     {
         $id = $this->input->post("id");
-        echo json_encode($this->m->getPatient($id));
+        echo json_encode($this->PatientModel->getPatient($id));
     }
 
     function patients(){
@@ -178,15 +177,15 @@ class PatientController extends CI_Controller
     function register()
     {
         $username = $this->input->post("username");
-        $password = $this->input->post("password");
-        $firstname = $this->input->post("firstname");
-        $lastname = $this->input->post("lastname");
+        $password = md5($this->input->post("password"));
+        $firstname = encrypt($this->input->post("firstname"));
+        $lastname = encrypt($this->input->post("lastname"));
         $job = $this->input->post("job");
         $dob = $this->input->post("dob");
         $city = $this->input->post("city");
         $street = $this->input->post("street");
         $email = $this->input->post("email");
-        $postcode = $this->input->post("postCode");
+        $postcode = encrypt($this->input->post("postCode"));
         $phoneNo = $this->input->post("phoneNo");
 
         $config['upload_path'] = './uploads/avatars/';
@@ -206,7 +205,7 @@ class PatientController extends CI_Controller
             $imageData = $this->upload->data();
             //call the model method
 
-            $imageName = $imageData["file_name"];
+            $imageName = encrypt($imageData["file_name"]);
 
             $patientData = array("username"=>$username, "password" => $password, "firstname" => $firstname, "lastname" => $lastname, "job" => $job, "dob" => $dob, "city" => $city, "street" => $street,
                 "email" => $email, "postCode" => $postcode, "phoneNo" => $phoneNo, "image" => $imageName

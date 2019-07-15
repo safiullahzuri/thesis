@@ -6,7 +6,7 @@ function getPatientsName($patientId){
     $CI->db->from("patient");
     $CI->db->where("patient_id", $patientId);
     $query = $CI->db->get()->row();
-    $name = $query->firstname.' '.$query->lastname;
+    $name = decrypt($query->firstname).' '.decrypt($query->lastname);
     return $name;
 }
 
@@ -26,7 +26,7 @@ function getDoctorsName($doctorId){
     $CI->db->from("doctor");
     $CI->db->where("doctor_id", $doctorId);
     $query = $CI->db->get()->row();
-    $name = $query->firstname.' '.$query->lastname;
+    $name = decrypt($query->firstname).' '.decrypt($query->lastname);
     return $name;
 }
 

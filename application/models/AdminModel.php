@@ -18,7 +18,12 @@ class AdminModel extends CI_Model
 
     function getAllAdmins(){
         $this->db->from("admin");
-        return $this->db->get()->result();
+        $admins =  $this->db->get()->result();
+        foreach ($admins as $admin){
+            $admin->firstname = decrypt($admin->firstname);
+            $admin->lastname = decrypt($admin->lastname);
+            $admin->image = decrypt($admin->image);
+        }
     }
 
     function deleteAdmin($id){
@@ -33,7 +38,11 @@ class AdminModel extends CI_Model
     function getAdmin($id){
         $this->db->from("admin");
         $this->db->where("admin_id", $id);
-        return $this->db->get()->row();
+        $admin =  $this->db->get()->row();
+        $admin->firstname = decrypt($admin->firstname);
+        $admin->lastname = decrypt($admin->lastname);
+        $admin->image = decrypt($admin->image);
+        return $admin;
     }
 
     function editAdmin($id, $data){

@@ -8,6 +8,8 @@ class PatientModel extends CI_Model
         parent::__construct();
     }
 
+
+
     function addPatient($patientData){
         if ($this->db->insert("Patient", $patientData)){
             return true;
@@ -20,6 +22,7 @@ class PatientModel extends CI_Model
         $this->db->from("patient");
         $this->db->where("patient_id", $patient_id);
         $image_name = $this->db->get()->row()->image;
+        $image_name = decrypt($image_name);
         $image_path = base_url('uploads/avatars/').$image_name;
         return $image_path;
     }
@@ -32,7 +35,14 @@ class PatientModel extends CI_Model
 
     function getAllPatients(){
         $this->db->from("patient");
-        return $this->db->get()->result();
+        $patients =  $this->db->get()->result();
+        foreach ($patients as $patient){
+            $patient->firstname = decrypt($patient->firstname);
+            $patient->lastname = decrypt($patient->lastname);
+            $patient->image = decrypt($patient->image);
+            $patient->postCode = decrypt($patient->postCode);
+        }
+        return $patients;
     }
 
     function editPatient($oldPatientId, $newPatientData){
@@ -48,7 +58,12 @@ class PatientModel extends CI_Model
         $this->db->from("patient");
         $this->db->where("patient_id", $id);
         $query = $this->db->get();
-        return $query->row();
+        $patient = $query->row();
+        $patient->firstname = decrypt($patient->firstname);
+        $patient->lastname = decrypt($patient->lastname);
+        $patient->image = decrypt($patient->image);
+        $patient->postCode = decrypt($patient->postCode);
+        return $patient;
     }
 
     function deletePatient($id){

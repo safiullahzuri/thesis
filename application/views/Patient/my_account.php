@@ -53,7 +53,6 @@
                 <form method="post" enctype="multipart/form-data" id="patientForm">
                     <input type="hidden" id="patient_id" />
                     <input type="text" class="form-control" id="username" placeholder="Username">
-                    <input type="password" class="form-control" id="password" placeholder="Password">
                     <input type="date" class="form-control" id="dob">
                     <input type="email" class="form-control" id="email" placeholder="Email">
                     <input type="text" class="form-control" id="firstname" placeholder="First Name">
@@ -122,7 +121,6 @@
                     $("#postCode").val(response.postCode);
                     $("#phoneNo").val(response.phoneNo);
                     $("#email").val(response.email);
-                    $("#password").val(response.password);
                     $("#image").attr('src', '<?php echo base_url(); ?>Uploads/avatars/'+response.image);
                 },
                 error: function (a, b, c) {
@@ -140,7 +138,6 @@
             var formData = new FormData();
             formData.append("patient_id", $("#patient_id").val());
             formData.append("username", $("#username").val());
-            formData.append("password", $("#password").val());
             formData.append("dob", $("#dob").val());
             formData.append("email", $("#email").val());
             formData.append("firstname", $("#firstname").val());

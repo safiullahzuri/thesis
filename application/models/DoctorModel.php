@@ -18,6 +18,7 @@ class DoctorModel extends CI_Model
         $this->db->from("doctor");
         $this->db->where("doctor_id", $doctor_id);
         $image_name = $this->db->get()->row()->image;
+        $image_name = decrypt($image_name);
         $image_path = base_url('uploads/avatars/').$image_name;
         return $image_path;
     }
@@ -32,14 +33,26 @@ class DoctorModel extends CI_Model
 
     function getAllDoctors(){
         $this->db->from("doctor");
-        return $this->db->get()->result();
+        $doctors =  $this->db->get()->result();
+        foreach ($doctors as $doctor){
+            $doctor->firstname = decrypt($doctor->firstname);
+            $doctor->lastname = decrypt($doctor->lastname);
+            $doctor->image = decrypt($doctor->image);
+            $doctor->postCode = decrypt($doctor->postCode);
+        }
+        return $doctors;
     }
 
     function getDoctor($id){
         $this->db->from("doctor");
         $this->db->where("doctor_id", $id);
         $query = $this->db->get();
-        return $query->row();
+        $doctor = $query->row();
+        $doctor->firstname = decrypt($doctor->firstname);
+        $doctor->lastname = decrypt($doctor->lastname);
+        $doctor->image = decrypt($doctor->image);
+        $doctor->postCode = decrypt($doctor->postCode);
+        return $doctor;
     }
 
     function deleteDoctor($id){

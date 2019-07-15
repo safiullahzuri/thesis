@@ -12,7 +12,7 @@ class LoginModel extends CI_Model
 
         $this->db->from($userType);
         $this->db->where('username', $username);
-        $this->db->where('password', $password);
+        $this->db->where('password', md5($password));
 
         $person = $this->db->get()->row();
 
@@ -33,8 +33,8 @@ class LoginModel extends CI_Model
                 "id" => $id,
                 "userType" => $userType,
                 "username" => $person->username,
-                "firstname" => $person->firstname,
-                "lastname" => $person->lastname,
+                "firstname" => decrypt($person->firstname),
+                "lastname" => decrypt($person->lastname),
                 "logged_in" => TRUE
             );
 

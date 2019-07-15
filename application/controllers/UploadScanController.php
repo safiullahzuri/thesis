@@ -54,7 +54,7 @@ class UploadScanController extends CI_Controller
                     print_r($error);
                 }else{
                     $data =$this->upload->data();
-                    $this->ScanModel->addScan($data["file_name"], $scan_desc, $appointment_id );
+                    $this->ScanModel->addScan(encrypt($data["file_name"]), $scan_desc, $appointment_id );
                     $this->session->set_flashdata("upload_success", "You successfully uploaded all your files!");
                 }
             }
