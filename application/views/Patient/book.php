@@ -66,7 +66,7 @@
                contentType: false,
               success: function (response) {
                    $("#doctorForm").trigger("reset");
-                   $('<div class="alert alert-info">You successfully booked an appointment.</div>').insertBefore("#doctor_id").delay(3000).fadeOut();
+                   $('<div class="alert alert-info">'+response+'</div>').insertBefore("#doctor_id").delay(3000).fadeOut();
 
               }, error: function (a, b, c) {
                     console.log('some error in this method');

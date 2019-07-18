@@ -41,7 +41,7 @@ class LoginModel extends CI_Model
             $this->session->set_userdata($personData);
             return $person;
         }else{
-            return null;
+            return false;
         }
 
     }

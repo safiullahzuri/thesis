@@ -111,7 +111,6 @@ class ReportController extends CI_Controller
                             <img src="'.$this->PatientModel->getPatientImagePath($patientId).'">
                         </div>
                     </div>
-
                  </div>';
 
         $html .= '<div class="row"><div class="col-md-8 align-content-center align-items-center">

@@ -15,9 +15,11 @@
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card card-signin my-5">
-                <div class="card-body">
+
+                <div class="card-body" >
+                    <div id="alertCard"></div>
                     <h5 class="card-title text-center">Sign In</h5>
-                    <form class="form-signin">
+                    <form class="form-signin" id="form">
                         <div class="form-label-group">
                             <input type="text" id="username" class="form-control" placeholder="Username" required autofocus>
                             <label for="inputEmail">Username</label>
@@ -36,6 +38,7 @@
                             </select>
                         </div>
                         <a class="btn btn-lg btn-primary btn-block text-uppercase" id="submit" >Sign In</a>
+                        <a class="btn btn-lg btn-block btn-info text-uppercase" href="<?php echo base_url('logincontroller/signup'); ?>">Create a Patient Account</a>
                     </form>
                 </div>
             </div>
@@ -56,7 +59,7 @@
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            url: "<?php echo base_url('LoginController/salam'); ?>",
+            url: "<?php echo base_url('LoginController/loginAttempt'); ?>",
             data: {username:username, password:password, userType: userType},
             success: function (response) {
                 if (response.found == "yes"){
@@ -64,10 +67,13 @@
                     alert("Credentials correct");
                     window.location.replace('<?php echo base_url(); ?>'+controller);
                 }else{
-                    alert("Credentials not correct");
-                }
+                  }
             },
             error:function (a,b,c) {
+                $("#form")[0].reset();
+                $("#alertCard").prepend('<div class="alert alert-warning">Your credentials are wrong!</div>').delay(2000).fadeOut();
+
+                $("#username").focus();
                 console.log(a);console.log(b);console.log(c);
             }
         });

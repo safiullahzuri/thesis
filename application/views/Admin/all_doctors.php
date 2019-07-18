@@ -39,10 +39,12 @@
                 <h4 class="modal-title">Modal Header</h4>
             </div>
             <div class="modal-body">
+                <div id="alertPlace"></div>
                 <form method="post" enctype="multipart/form-data" id="patientForm">
                     <input type="hidden" id="patient_id" />
                     <input type="text" class="form-control" id="username" placeholder="Username">
                     <input type="password" class="form-control" id="password" placeholder="Password">
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
                     <input type="date" class="form-control" id="dob">
                     <input type="email" class="form-control" id="email" placeholder="Email">
                     <input type="text" class="form-control" id="firstname" placeholder="First Name">
@@ -56,7 +58,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <input  type="submit" id="editDoctor" class="form-control btn-success" />
+                <input  type="submit" id="editDoctor" class="form-control btn-success" value="Register Doctor" />
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -93,7 +95,17 @@
         //finalize editing a patient data
         $("#editDoctor").click(function (e) {
             e.preventDefault();
+            var password = $("#password").val();
+            var confirmPassword = $("#confirmPassword").val();
+            if (password == confirmPassword){
+                saveDoctor();
+            } else{
+                $("#alertPlace").prepend('<div class="alert alert-danger">Password and Confirm Password should match</div>').delay(2000).fadeOut();
+            }
 
+        });
+
+        function saveDoctor() {
             var formData = new FormData();
             formData.append("username", $("#username").val());
             formData.append("password", $("#password").val());
@@ -131,8 +143,7 @@
                     console.log("some error");
                 }
             });
-
-        });
+        }
 
 
 

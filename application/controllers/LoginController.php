@@ -22,16 +22,15 @@ class LoginController extends CI_Controller{
         $this->load->view("signUpIn/login");
     }
 
-    public function salam(){
+    public function loginAttempt(){
         $username = $this->input->post("username");
         $password = $this->input->post("password");
         $userType = $this->input->post("userType");
 
         $result = $this->LoginModel->login($username, $password, $userType);
 
-        $response = array();
 
-        if ($result != null){
+        if ($result != false){
             $response["found"] = "yes";
         }else{
             $response["found"] = "no";
@@ -87,6 +86,10 @@ class LoginController extends CI_Controller{
         }else{
             echo '<script>alert("Sorry! Could not back up your database.");</script>';
         }
+    }
+
+    function signUp(){
+        $this->load->view("signupin/signup");
     }
 
 

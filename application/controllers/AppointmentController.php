@@ -35,10 +35,14 @@ class AppointmentController extends CI_Controller
 
         $appointment = array("patient_id" => $patient_id, "doctor_id" => $doctor_id, "sdate" => $date, "ptime" => $time, "description" => $desc, "display" => "yes");
 
-        if ($this->AppointmentModel->createAppointment($appointment)){
-            echo "Appointment made successfully";
+        if (!$this->AppointmentModel->gotAppointmentAtThisTime($doctor_id, $date, $time)){
+            if ($this->AppointmentModel->createAppointment($appointment)){
+                echo "Appointment made successfully";
+            }else{
+                echo "Sorry! Could not make the appointment!";
+            }
         }else{
-            echo "Sorry! Could not make the appointment!";
+            echo "The doctor has already an appointment at this time.";
         }
     }
 

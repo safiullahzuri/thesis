@@ -35,14 +35,14 @@ class PatientsAPI extends CI_Controller
     {
         $username = $this->input->post("username");
         $password = md5($this->input->post("password"));
-        $firstname = encrypt($this->input->post("firstname"));
-        $lastname = encrypt($this->input->post("lastname"));
+        $firstname = $this->input->post("firstname");
+        $lastname = $this->input->post("lastname");
         $job = $this->input->post("job");
         $dob = $this->input->post("dob");
         $city = $this->input->post("city");
         $street = $this->input->post("street");
         $email = $this->input->post("email");
-        $postcode = encrypt($this->input->post("postCode"));
+        $postcode = $this->input->post("postCode");
         $phoneNo = $this->input->post("phoneNo");
         $newImage = $this->input->post("newImage");
         $imageName = "avatar.png";
@@ -59,11 +59,15 @@ class PatientsAPI extends CI_Controller
         }
 
 
-        $patientData = array("username" => $username, "password" => $password, "firstname" => encrypt($firstname), "lastname" => $lastname, "job" => $job, "dob" => $dob, "city" => $city, "street" => $street,
-            "email" => $email, "postCode" => $postcode, "phoneNo" => $phoneNo, "image" => encrypt($imageName)
+        $patientData = array("username" => $username, "password" => $password, "firstname" => encrypt($firstname), "lastname" => encrypt($lastname), "job" => $job, "dob" => $dob, "city" => $city, "street" => $street,
+            "email" => $email, "postCode" => encrypt($postcode), "phoneNo" => $phoneNo, "image" => encrypt($imageName)
         );
         if ($this->PatientModel->addPatient($patientData)) {
-            echo "patient successfully added";
+            if ($this->input->post("redirect") == "yes"){
+                redirect("LoginController/login");
+            }else{
+                echo "patient successfully added";
+            }
         } else {
             echo "patient was not added";
         }
