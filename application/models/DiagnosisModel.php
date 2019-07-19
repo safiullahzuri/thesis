@@ -58,13 +58,12 @@ class DiagnosisModel extends CI_Model
     }
 
 
-
     //TODO: get diagnosis path for an appointment
     function getDiagnosisPath($appointment_id){
         $this->db->where("appointment_id", $appointment_id);
         $this->db->from("diagnosis");
         $diagnosis_file = $this->db->get()->row()->diagnosis_file;
-        return base_url().'uploads/diagnosis/'.$appointment_id.'/'.$diagnosis_file;
+        return FCPATH.'uploads/diagnosis/'.$appointment_id.'/'.$diagnosis_file;
     }
 
 

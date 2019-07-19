@@ -1,1 +1,0 @@
-<table class="table" style="width: 400px;" cellspacing="1" cellpadding="1" border="1" align="center"><tbody><tr><td>&nbsp;dfadf</td><td>fdsafadfaff</td></tr><tr><td>&nbsp;dsfasdfaf</td><td>&nbsp;dsafa</td></tr></tbody></table>

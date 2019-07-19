@@ -1,1 +1,0 @@
-<div>the diagnosis for something</div><div>.<span style="font-style: italic;">dfadfa</span></div><div><span style="font-style: italic;">.<span style="text-decoration: underline;">dsfafdas</span></span><br></div>

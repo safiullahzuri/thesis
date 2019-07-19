@@ -40,7 +40,26 @@ class DiagnosisController extends CI_Controller
         }
 
         echo json_encode($data);
+    }
 
+    function getDiagnosis(){
+        $appointment_id = $this->input->post("id");
+        $contents = "";
+        $contents = file_get_contents($this->DiagnosisModel->getDiagnosisPath($appointment_id), true);
+        echo $contents;
+
+    }
+
+    function editDiagnosis(){
+        $appointmentId = $this->input->post("appointmentId");
+        $diagnosisText = $this->input->post("diagnosisText");
+
+        if (write_file($this->DiagnosisModel->getDiagnosisPath($appointmentId), $diagnosisText, 'w+')){
+            echo "edited";
+        }else{
+            echo FCPATH;
+            echo "not edited".$this->DiagnosisModel->getDiagnosisPath($appointmentId);
+        }
 
     }
 

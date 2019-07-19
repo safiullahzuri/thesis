@@ -6,6 +6,7 @@
               <td>ID</td>
               <td>Diagnosis For (patient)</td>
               <td>Diagnosis File</td>
+              <td>Edit Diagnosis Report</td>
               <td>Scans</td>
             </thead>
             <tbody>
@@ -14,6 +15,7 @@
                     <td><?php echo $diagnosis["diagnosis_id"]; ?></td>
                     <td><?php echo getPatientsNameFromAppointment($diagnosis["appointment_id"]); ?></td>
                     <td><a class="btn btn-success" href="<?php echo base_url('ReportController/generateReport/').$diagnosis["appointment_id"]; ?>">Download Diagnosis</a></td>
+                    <td><a class="btn btn-warning editReport" data-id="<?php echo $diagnosis["appointment_id"]; ?>">Edit Report</a></td>
                     <td><a class="btn btn-primary" href="<?php echo base_url('DoctorController/getScans/').$diagnosis["appointment_id"]; ?>">See Scans</a></td>
                 </tr>
             <?php endforeach; ?>
@@ -21,6 +23,36 @@
         </table>
     </div>
 </div>
+
+
+<!-- Edit Diagnosis Report Here -->
+<!-- Modal -->
+<div id="editDiagnosisModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="fas fa-window-close"></i></button>
+                <h4 class="modal-title">Edit Diagnosis Report</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" >
+                    <input type="hidden"  id="appointmentId" />
+                    <textarea class="form-control" name="diagnosisText" id="diagnosis"></textarea>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input  type="submit" id="editDiagnosis" class="form-control btn-success" value="Edit Diagnosis" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- End Edit Dialog -->
 <!-- Edit Dialog Here -->
 <!-- Modal -->
 <div id="editModal" class="modal fade" role="dialog">
@@ -77,6 +109,62 @@
     $(document).ready(function () {
 
         $("#table").DataTable();
+
+
+        //edit report diagnosis
+        $("#diagnosis").Editor();
+
+        $(".editReport").click(function (event) {
+            event.preventDefault();
+
+            var appointmentId = $(this).attr("data-id");
+            $("#appointmentId").val(appointmentId);
+
+            $("#editDiagnosisModal").modal("show");
+
+            $.ajax({
+                url: '<?php echo base_url('DiagnosisController/getDiagnosis'); ?>',
+                data: {id: appointmentId},
+                type: 'POST',
+                success: function (response) {
+                    $("#diagnosis").Editor("setText", response);
+                },
+                error: function (a, b, c) {
+                    console.log("something went wrong");
+                }
+            });
+
+        });
+
+        $("#editDiagnosis").click(function (event) {
+            var myText = $("#diagnosis").Editor("getText");
+            var appointment_id = $("#appointmentId").val();
+
+            console.log(myText); console.log(appointment_id);
+
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url(); ?>DiagnosisController/editDiagnosis',
+                data: {appointmentId: appointment_id, diagnosisText: myText},
+                success: function (response) {
+                    alert(response);
+                    $("#editDiagnosisModal").modal("hide");
+                },
+                error: function (a, b, c) {
+                    console.log("can't see the error yet");
+                    console.log(a);
+                    console.log(b);
+                    console.log(c);
+                }
+            })
+        });
+
+        //end edit report diagnosis
+
+
+
+
+
 
         $(".edit").click(function (e) {
             e.preventDefault();

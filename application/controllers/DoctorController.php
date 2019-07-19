@@ -246,4 +246,7 @@ class DoctorController extends CI_Controller
 
 
 
+
+
+
 }

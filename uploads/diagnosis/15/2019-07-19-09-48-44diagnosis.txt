@@ -1,0 +1,1 @@
+<b>The diagnosis for the bone scans that have been uploaded will be as such: </b><hr>some diagnosis here<br> 

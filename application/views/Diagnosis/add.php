@@ -58,15 +58,14 @@
     });
 
     $("#text").click(function () {
-        var myText = $("#diagnosis").Editor("getText");
+        var diagnosisText = $("#diagnosis").Editor("getText");
         var appointment_id = $("#appointment_id").val();
 
-        console.log(myText); console.log(appointment_id);
 
         $.ajax({
             type: 'POST',
             url: '<?php echo base_url(); ?>DiagnosisController/saveDiagnosis',
-            data: {appointment_id: appointment_id, diagnosis_text: myText},
+            data: {appointment_id: appointment_id, diagnosis_text: diagnosisText},
             dataType: 'json',
             success: function (response) {
                 if (response.wrote == "yes"){
