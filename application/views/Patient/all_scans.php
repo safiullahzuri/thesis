@@ -6,6 +6,8 @@
     <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.min.js'); ?>" ></script>
     <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>" ></script>
 
+
+
 </head>
 <body>
 <?php $this->load->view("patient/navigation"); ?>
@@ -14,8 +16,6 @@
 
 <div class="container container-fluid align-center">
     <div class="row">
-
-
         <div class="row">
             <?php foreach ($scans as $scan): ?>
                 <?php for($i=0; $i<sizeof($scan); $i++): ?>
@@ -34,14 +34,7 @@
                 <?php endfor; ?>
             <?php endforeach; ?>
         </div>
-
     </div>
-
-
-
-
 </div>
 </div>
-
-
 </body>

@@ -10,8 +10,11 @@
 <body>
 <?php $this->load->view("patient/navigation"); ?>
 
-<div class="container container-fluid">
-    <div class="col-md-10">
+<div class="container container-fluid col-md-8 col-md-offset-2">
+    <?php if($this->session->flashdata("changePasswordMessage")): ?>
+        <div class="alert alert-info" id="mAlert"><?php echo $this->session->flashdata("changePasswordMessage"); ?></div>
+    <?php endif; ?>
+    <div>
         <table class="table table-striped table-active table-bordered">
             <thead>
             <td>thumbnail</td>
@@ -32,6 +35,7 @@
                 <td><?php echo $patient->email; ?></td>
                 <td><?php echo $patient->city; ?></td>
                 <td><button class="btn btn-warning edit" data-id="<?php echo $patient->patient_id; ?>">Edit</button></td>
+                <td><button class="btn btn-dark changePassword" data-id="<?php echo $patient->patient_id; ?>">Change Password</button></td>
             </tr>
 
             </tbody>
@@ -80,8 +84,44 @@
 
 <!-- End Edit Dialog -->
 
-<!-- Delete Dialog Here -->
+<!-- Change Password Dialog Here -->
 <!-- Modal -->
+
+<div id="changeModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Change Password</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="<?php echo base_url('PatientController/changePassword'); ?>" id="changeForm">
+                    <div id="changeAlert"></div>
+                    <div class="form-group">
+                        <label>Previous Password</label>
+                        <input type="hidden" value="patientId" id="changePatientId" name="patientId"/>
+                        <input type="password" class="form-control" name="previousPassword" />
+                    </div>
+                    <div class="form-group">
+                        <label>Previous Password</label>
+                        <input type="password" class="form-control" name="newPassword" id="newPassword" />
+                        <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" />
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input  type="submit" value="Change Password" id="changePasswordBtn" class="form-control btn-success" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- End Change Dialog -->
 
 
 
@@ -92,12 +132,39 @@
 
     $(document).ready(function () {
 
+        setTimeout(function (event) {
+            $("#mAlert").hide();
+        }, 3000);
+
+
+        $(".changePassword").click(function (e) {
+            e.preventDefault();
+            var id = $(this).attr("data-id");
+            $("#changeModal").modal("show");
+            $("#changePatientId").val(id);
+        });
+
+        $("#changePasswordBtn").click(function (event) {
+
+            var password = $("#newPassword").val();
+            var confirmPassword = $("#confirmPassword").val();
+
+            if (password != confirmPassword){
+                $("#changeAlert").append('<div class="alert alert-warning">Password and Confirm Password fields do not match!</div>').delay(3000).fadeOut();
+            }else{
+                $("form#changeForm").submit();
+            }
+
+        });
+
 
         $(".edit").click(function (e) {
             e.preventDefault();
             var id = $(this).attr("data-id");
             showEditDialog(id);
         });
+
+
 
 
         //edit dialog

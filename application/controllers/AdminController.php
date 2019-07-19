@@ -55,27 +55,18 @@ class AdminController extends CI_Controller
         $this->load->view("admin/my_account", $data);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    function changePassword(){
+        $previousPassword = $this->input->post("previousPassword");
+        $adminId = $this->input->post("adminId");
+        $newPassword = $this->input->post("newPassword");
+        if ($this->AdminModel->changePassword($adminId, $previousPassword, $newPassword)){
+            $message = "You successfully changed your password!";
+        }else{
+            $message = "Something wrong with your password. Please ensure that your password is correct.";
+        }
+        $this->session->set_flashdata("changePasswordMessage", $message);
+        $this->myAccount();
+    }
 
 
 

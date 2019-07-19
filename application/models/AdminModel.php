@@ -16,6 +16,30 @@ class AdminModel extends CI_Model
         }
     }
 
+    function changePassword($adminId, $previousPassword, $newPassword){
+        if ($this->isPasswordCorrect($adminId, $previousPassword)){
+            $this->db->where("doctor_id", $adminId);
+            if ($this->db->update("doctor", array("password" => md5($newPassword)))){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    function isPasswordCorrect($adminId, $password){
+        $this->db->from("admin");
+        $this->db->where("admin_id", $adminId);
+        $patientPassword = $this->db->get()->row()->password;
+        if ($patientPassword == md5($password)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     function getAllAdmins(){
         $this->db->from("admin");
         $admins =  $this->db->get()->result();

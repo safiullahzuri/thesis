@@ -6,6 +6,7 @@ class AdminAPI extends CI_Controller
     function __construct()
     {
         parent::__construct();
+        $this->init();
     }
 
     function admins(){
@@ -29,7 +30,6 @@ class AdminAPI extends CI_Controller
             if (!$this->upload->do_upload("image")){
                 echo $this->upload->display_errors();
             }else{
-                $imageData = $this->upload->data();
                 //call the model method
 
                 $imageName = $_FILES['image']['name'];

@@ -17,6 +17,19 @@ class DoctorController extends CI_Controller
         }
     }
 
+    function changePassword(){
+        $previousPassword = $this->input->post("previousPassword");
+        $doctorId = $this->input->post("doctorId");
+        $newPassword = $this->input->post("newPassword");
+        if ($this->DoctorModel->changePassword($doctorId, $previousPassword, $newPassword)){
+            $message = "You successfully changed your password!";
+        }else{
+            $message = "Something wrong with your password. Please ensure that your password is correct.";
+        }
+        $this->session->set_flashdata("changePasswordMessage", $message);
+        $this->myAccount();
+    }
+
     function index(){
         redirect('DoctorController/myAppointments');
     }

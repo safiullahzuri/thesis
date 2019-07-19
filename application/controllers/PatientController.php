@@ -92,6 +92,19 @@ class PatientController extends CI_Controller
         $this->load->view("patient/scans", $data);
     }
 
+    function changePassword(){
+        $previousPassword = $this->input->post("previousPassword");
+        $patientId = $this->input->post("patientId");
+        $newPassword = $this->input->post("newPassword");
+        if ($this->PatientModel->changePassword($patientId, $previousPassword, $newPassword)){
+            $message = "You successfully changed your password!";
+        }else{
+            $message = "Something wrong with your password. Please ensure that your password is correct.";
+        }
+        $this->session->set_flashdata("changePasswordMessage", $message);
+        $this->myAccount();
+    }
+
     function init(){
         $config['upload_path'] = './uploads/avatars/';
         $config['allowed_types'] = 'gif|jpg|jpeg|png';

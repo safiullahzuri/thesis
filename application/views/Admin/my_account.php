@@ -9,9 +9,12 @@
 </head>
 <body>
 
-<div class="container container-fluid">
-    <div class="col-md-10">
+<div class="container container-fluid col-md-8 col-md-offset-2">
+    <div>
         <table class="table table-striped table-active table-bordered">
+            <?php if($this->session->flashdata("changePasswordMessage")): ?>
+                <div class="alert alert-info" id="mAlert"><?php echo $this->session->flashdata("changePasswordMessage"); ?></div>
+            <?php endif; ?>
             <thead>
             <td>thumbnail</td>
             <td>ID</td>
@@ -29,6 +32,7 @@
                 <td><?php echo $admin->lastname; ?></td>
                 <td><?php echo $admin->username; ?></td>
                 <td><button class="btn btn-warning edit" data-id="<?php echo $admin->admin_id; ?>">Edit</button></td>
+                <td><button class="btn btn-dark changePassword" data-id="<?php echo $admin->admin_id; ?>">Change Password</button></td>
             </tr>
 
             </tbody>
@@ -50,7 +54,6 @@
                 <form method="post" enctype="multipart/form-data"  >
                     <input type="hidden" id="admin_id" />
                     <input type="text" class="form-control" id="username" placeholder="Username">
-                    <input type="password" class="form-control" id="password" placeholder="Password">
                     <input type="text" class="form-control" id="firstname" placeholder="First Name">
                     <input type="text" class="form-control" id="lastname" placeholder="Last Name">
                     <div>
@@ -61,7 +64,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <input  type="submit" id="editAdmin" class="form-control btn-success" />
+                <input  type="submit" id="editAdmin" class="form-control btn-success" value="Edit Admin" />
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -71,17 +74,75 @@
 
 <!-- End Edit Dialog -->
 
-<!-- Delete Dialog Here -->
+<!-- Change Password Dialog Here -->
 <!-- Modal -->
 
+<div id="changeModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Change Password</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="<?php echo base_url('AdminController/changePassword'); ?>" id="changeForm">
+                    <div id="changeAlert"></div>
+                    <div class="form-group">
+                        <label>Previous Password</label>
+                        <input type="hidden" id="changeAdminId" name="adminId"/>
+                        <input type="password" class="form-control" name="previousPassword" />
+                    </div>
+                    <div class="form-group">
+                        <label>Previous Password</label>
+                        <input type="password" class="form-control" name="newPassword" id="newPassword" />
+                        <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" />
+                    </div>
 
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input  type="submit" value="Change Password" id="changePasswordBtn" class="form-control btn-success" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- End Change Dialog -->
 
 </body>
 </html>
 <script type="text/javascript">
 
     $(document).ready(function () {
+
+        setTimeout(function (event) {
+            $("#mAlert").hide();
+        }, 3000);
+
+
+        $(".changePassword").click(function (e) {
+            e.preventDefault();
+            var id = $(this).attr("data-id");
+            $("#changeModal").modal("show");
+            $("#changeAdminId").val(id);
+        });
+
+        $("#changePasswordBtn").click(function (event) {
+
+            var password = $("#newPassword").val();
+            var confirmPassword = $("#confirmPassword").val();
+
+            if (password != confirmPassword){
+                $("#changeAlert").append('<div class="alert alert-warning">Password and Confirm Password fields do not match!</div>').delay(3000).fadeOut();
+            }else{
+                $("form#changeForm").submit();
+            }
+
+        });
 
         $(".edit").click(function (e) {
             e.preventDefault();
@@ -104,7 +165,6 @@
                     $("#firstname").val(response.firstname);
                     $("#lastname").val(response.lastname);
                     $("#username").val(response.username);
-                    $("#password").val(response.password);
                     $("#image").attr('src', '<?php echo base_url(); ?>Uploads/avatars/'+response.image);
                 },
                 error: function (a, b, c) {
@@ -123,7 +183,6 @@
             var formData = new FormData();
             formData.append("admin_id", $("#admin_id").val());
             formData.append("username", $("#username").val());
-            formData.append("password", $("#password").val());
             formData.append("firstname", $("#firstname").val());
             formData.append("lastname", $("#lastname").val());
 

@@ -18,6 +18,30 @@ class PatientModel extends CI_Model
         }
     }
 
+    function changePassword($patientId, $previousPassword, $newPassword){
+        if ($this->isPasswordCorrect($patientId, $previousPassword)){
+            $this->db->where("patient_id", $patientId);
+            if ($this->db->update("patient", array("password" => md5($newPassword)))){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    function isPasswordCorrect($patientId, $password){
+        $this->db->from("patient");
+        $this->db->where("patient_id", $patientId);
+        $patientPassword = $this->db->get()->row()->password;
+        if ($patientPassword == md5($password)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     function getPatientImagePath($patient_id){
         $this->db->from("patient");
         $this->db->where("patient_id", $patient_id);

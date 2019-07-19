@@ -1,4 +1,4 @@
-<html xmlns:https="http://www.w3.org/1999/xhtml">
+<html>
 <head>
     <title>Sign In!</title>
     <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
@@ -14,23 +14,26 @@
 <body>
 <?php $this->load->view("Patient/navigation"); ?>
 
-<div class="container container-fluid align-center">
+<div class="container container-fluid col-md-6 col-md-offset-3">
 
 
-    <div class="col-md-9">
-        <form method="post" id="doctorForm">
-            <select class="form-control" id="doctor_id">
-                <?php foreach ($doctors as $doctor): ?>
-                    <option value="<?php echo $doctor->doctor_id?>"><?php echo $doctor->firstname.' '.$doctor->lastname?></option>
-                <?php endforeach;; ?>
-            </select>
-            <input type="hidden" value="<?php echo $patient_id; ?>" id="patient_id" />
-            <input type="date" class="form-control" id="date" />
-            <input type="time" class="form-control" id="time" />
-            <textarea class="form-control" id="desc"></textarea>
-            <input type="submit" class="form-control btn-block" id="scheduleBtn" value="Schedule An Appointment" />
-        </form>
-    </div>
+     <div>
+         <div class="form-group">
+             <form method="post" id="doctorForm">
+                 <select class="form-control" id="doctor_id">
+                     <?php foreach ($doctors as $doctor): ?>
+                         <option value="<?php echo $doctor->doctor_id?>"><?php echo $doctor->firstname.' '.$doctor->lastname?></option>
+                     <?php endforeach;; ?>
+                 </select>
+                 <input type="hidden" value="<?php echo $patient_id; ?>" id="patient_id" />
+                 <input type="date" class="form-control" id="date" />
+                 <input type="time" class="form-control" id="time" />
+                 <textarea class="form-control" id="desc"></textarea>
+                 <input type="submit" class="form-control btn-block" id="scheduleBtn" value="Schedule An Appointment" />
+             </form>
+         </div>
+     </div>
+
 
 
 </div>

@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="form-label-group" >
-                            <select class="form-control" id="userType" >
+                            <select class="form-control" id="userType" style="border-radius: 16px; border: 1px solid;" >
                                 <option value="doctor">Doctor</option>
                                 <option value="patient">Patient</option>
                                 <option value="admin">Admin</option>
@@ -64,7 +64,7 @@
             success: function (response) {
                 if (response.found == "yes"){
                     var controller = userType+"Controller";
-                    alert("Credentials correct");
+                    alert("Welcome to PACS");
                     window.location.replace('<?php echo base_url(); ?>'+controller);
                 }else{
                   }

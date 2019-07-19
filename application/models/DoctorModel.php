@@ -55,6 +55,30 @@ class DoctorModel extends CI_Model
         return $doctor;
     }
 
+    function changePassword($doctorId, $previousPassword, $newPassword){
+        if ($this->isPasswordCorrect($doctorId, $previousPassword)){
+            $this->db->where("doctor_id", $doctorId);
+            if ($this->db->update("doctor", array("password" => md5($newPassword)))){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    function isPasswordCorrect($doctorId, $password){
+        $this->db->from("doctor");
+        $this->db->where("doctor_id", $doctorId);
+        $patientPassword = $this->db->get()->row()->password;
+        if ($patientPassword == md5($password)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     function deleteDoctor($id){
         $this->db->where("doctor_id", $id);
         if ($this->db->delete("doctor")){
