@@ -9,6 +9,7 @@ class AdminController extends CI_Controller
     {
         parent::__construct();
         $this->init();
+        $this->load->view("links");
         $this->load->view("admin/navigation");
 
         if ($this->session->has_userdata("id") && $this->session->userdata("userType") == "admin"){

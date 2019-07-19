@@ -15,6 +15,8 @@ class DoctorController extends CI_Controller
         }else{
             redirect("LoginController/login");
         }
+        $this->load->view("links");
+        $this->load->view("doctor/navigation");
     }
 
     function changePassword(){

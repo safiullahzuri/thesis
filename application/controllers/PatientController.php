@@ -10,6 +10,8 @@ class PatientController extends CI_Controller
     {
         parent::__construct();
         $this->init();
+        $this->load->view("links");
+        $this->load->view("patient/navigation");
 
 
         if ($this->session->has_userdata("id") && $this->session->userdata("userType") == 'patient'){
@@ -22,7 +24,7 @@ class PatientController extends CI_Controller
 
     function index()
     {
-        $this->myAppointments();
+        $this->bookAnAppointment();
     }
 
     function myAppointments(){
@@ -33,10 +35,7 @@ class PatientController extends CI_Controller
 
     function myDiagnosis(){
         $myDiagnosis = $this->DiagnosisModel->getAllPatientDiagnosis($this->patient_id);
-
-
         $array = json_decode(json_encode($myDiagnosis), true);
-
         $data["myDiagnosis"] = $array;
 
 

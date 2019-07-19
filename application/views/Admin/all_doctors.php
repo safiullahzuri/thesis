@@ -1,18 +1,9 @@
-<html>
-<head>
-
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/signUpIn/signupin.css')?>">
-    <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.min.js'); ?>" ></script>
-    <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>" ></script>
-
-</head>
 <body>
 
-<div class="container container-fluid">
-    <input type="button" class="btn btn-success" value="Register Doctor" id="registerDoctor" />
-    <div class="col-md-10">
-        <table class="table table-striped table-active table-bordered">
+<div class="container container-fluid col-md-8 col-md-offset-2">
+    <div >
+        <table class="table table-striped table-active table-bordered" id="doctorsTable">
+            <input type="button" class="btn btn-success" value="Register Doctor" id="registerDoctor" style="margin-bottom: 20px;" />
             <thead>
             <td>thumbnail</td>
             <td>ID</td>
@@ -21,7 +12,7 @@
             <td>Email</td>
             <td>City</td>
             </thead>
-            <tbody id="patientsTb">
+            <tbody id="doctorsTB">
 
             </tbody>
         </table>
@@ -77,8 +68,11 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        initializeDoctorsData();
 
+
+
+        initializeDoctorsData();
+        $("#doctorsTable").DataTable();
 
 
         //
@@ -168,7 +162,7 @@
                             +'<td>'+response[i].city+'</td>';
                     }
 
-                    $("#patientsTb").html(html);
+                    $("#doctorsTB").html(html);
                 },
                 error: function (a,b,c) {
                     console.log(a); console.log(b); console.log(c);

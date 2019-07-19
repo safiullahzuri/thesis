@@ -1,18 +1,8 @@
-<html>
-<head>
-
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/signUpIn/signupin.css')?>">
-    <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.min.js'); ?>" ></script>
-    <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>" ></script>
-
-</head>
 <body>
-<?php $this->load->view("doctor/navigation"); ?>
 
-<div class="container container-fluid">
-    <div class="col-md-10">
-        <table class="table table-striped table-active table-bordered">
+<div class="container container-fluid col-md-8 col-md-offset-2">
+    <div>
+        <table class="table table-striped table-active table-bordered" id="table">
             <thead>
             <td>ID</td>
             <td>Diagnosis For (patient)</td>
@@ -70,6 +60,9 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+
+        $("#table").DataTable();
+
         $("#sendReport").css('display', 'none');
         var counter = 0;
 

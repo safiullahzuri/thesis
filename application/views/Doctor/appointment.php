@@ -1,25 +1,15 @@
-<html>
-<head>
-
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/signUpIn/signupin.css')?>">
-    <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.min.js'); ?>" ></script>
-    <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>" ></script>
-    <title>My Appointments</title>
-</head>
 <body>
 
-<?php $this->load->view("doctor/navigation"); ?>
-
-<div class="container container-fluid">
-    <div class="col-md-10">
-        <table class="table table-striped table-active table-bordered">
+<div class="container container-fluid col-md-8 col-md-offset-2">
+    <div>
+        <table class="table table-striped table-active table-bordered" id="table">
             <thead>
             <td>Patient</td>
             <td>Description</td>
             <td>Date</td>
             <td>Time</td>
-            <td colspan="3">Action</td>
+            <td>View/Upload</td>
+            <td>Cancel Appointment</td>
             </thead>
             <tbody id="doctorsTb">
             <?php foreach ($myAppointments as $appointment): ?>
@@ -71,6 +61,8 @@
 </html>
 <script>
     $(document).ready(function () {
+        $("#table").DataTable();
+
        $(".cancel").click(function (e) {
            e.preventDefault();
            var appointment_id = $(this).attr("data-id");
