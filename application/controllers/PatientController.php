@@ -69,6 +69,13 @@ class PatientController extends CI_Controller
         $this->load->view("Patient/book", $data);
     }
 
+    function gal(){
+        $scans = $this->ScanModel->getScansForPatient($this->patient_id);
+        $array = json_decode(json_encode($scans), true);
+        $data["scans"] = $array;
+        $this->load->view("Patient/new_scans", $data);
+    }
+
     function registerPatient()
     {
         $this->load->view("Patient/register");

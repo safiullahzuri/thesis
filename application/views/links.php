@@ -9,5 +9,9 @@
     <script type="text/javascript" src="<?php echo base_url('assets/'); ?>DataTables/datatables.min.js"></script>
     <script src="https://kit.fontawesome.com/b126c2f99c.js"></script>
     <script src="<?php echo base_url(); ?>assets/editor/editor.js"></script>
+    <link href="<?php echo base_url(); ?>assets/fontawesome/css/all.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/editor/editor.css" type="text/css" rel="stylesheet"/>
+
+    <link href="<?php echo base_url('assets/lightGallery/dist/css').'/lightgallery.css'?>" type="text/css" rel="stylesheet" />
+
 </head>
