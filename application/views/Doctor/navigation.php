@@ -29,6 +29,9 @@
                 <a class="nav-link" href="<?php echo base_url('DoctorController/myAccount'); ?>">My Account</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="<?php echo base_url('DiscussionController/openDiscussions'); ?>">Open Discussions</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link pull-right" href="<?php echo base_url('LoginController/logout'); ?>">Logout!</a>
             </li>
         </ul>

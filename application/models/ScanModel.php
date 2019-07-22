@@ -68,6 +68,16 @@ class ScanModel extends CI_Model
     }
 
 
+    function getScan($scan_id){
+        $this->db->where('scan_id', $scan_id);
+        $this->db->from('scan');
+
+        $scan =  $this->db->get()->row();
+        $scan->file_name = decrypt($scan->file_name);
+        return $scan;
+    }
+
+
 
 
 
