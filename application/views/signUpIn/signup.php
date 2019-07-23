@@ -11,9 +11,17 @@
 
 
 
-<div class="container container-fluid">
-    <div class="row">
-        <div class="col-md-9" >
+<div class="container col-md-6 col-md-offset-2">
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Welcome to PACS</h1>
+            <div class="well well-sm">Please provide the required information to register your account.</div>
+            <a class="btn btn-info" href="<?php echo base_url('LoginController/login'); ?>">Back to Login Page</a>
+        </div>
+    </div>
+
+        <div class="well well-lg" >
             <div id="alertCard"></div>
             <form method="post" enctype="multipart/form-data" id="patientForm" action="<?php echo base_url('patientsAPI/register'); ?>">
                     <input type="text" class="form-control" name="username" placeholder="Username" required>
@@ -28,11 +36,11 @@
                     <input type="text" class="form-control" name="street" placeholder="Street" required>
                     <input type="text" class="form-control" name="postCode" placeholder="Post Code" required>
                     <input type="text" class="form-control" name="phoneNo" placeholder="Phone No" required>
-                    <input type="file"  id="image" name="image">
+                    <input type="file"  id="image" name="image" class="form-control">
                     <input type="hidden" name="redirect" value="yes" />
-                    <input type="submit" class="btn btn-lg" id="registerPatient" />
+                    <input type="submit" class="btn btn-lg btn-block" id="registerPatient" value="Register Account" />
             </form>
-        </div>
+
     </div>
 
 </div>
