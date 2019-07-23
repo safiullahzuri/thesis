@@ -1,5 +1,7 @@
 <body>
-
+<head>
+    <title>My Account</title>
+</head>
 <div class="container container-fluid col-md-8 col-md-offset-2">
     <?php if($this->session->flashdata("changePasswordMessage")): ?>
         <div class="alert alert-info" id="mAlert"><?php echo $this->session->flashdata("changePasswordMessage"); ?></div>

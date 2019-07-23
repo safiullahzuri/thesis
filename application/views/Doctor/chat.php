@@ -31,6 +31,9 @@
     }
 
 </style>
+<head>
+    <title>Chat With Patients</title>
+</head>
 <body>
 
 <div class="container container-fluid main">

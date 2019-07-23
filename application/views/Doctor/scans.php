@@ -4,6 +4,7 @@
     <script src="<?php echo base_url('assets/lightGallery/dist/js/'); ?>lightgallery-all.min.js"></script>
     <script src="<?php echo base_url('assets/lightGallery/modules/'); ?>lg-fullscreen.min.js"></script>
     <script src="<?php echo base_url('assets/lightGallery/modules/'); ?>lg-thumbnail.min.js"></script>
+    <title>Scans</title>
 </head>
 <body>
 <div class="container container-fluid">

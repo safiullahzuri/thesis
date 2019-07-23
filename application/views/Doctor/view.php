@@ -1,3 +1,6 @@
+<head>
+    <title>My Account</title>
+</head>
 <body>
 <div class="container container-fluid">
     <div class="col-md-10">

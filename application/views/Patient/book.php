@@ -1,3 +1,6 @@
+<head>
+    <title>Book An Appointment</title>
+</head>
 <body>
 
 <div class="container container-fluid col-md-6 col-md-offset-3">

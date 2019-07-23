@@ -1,3 +1,6 @@
+<head>
+    <title>All Doctors</title>
+</head>
 <body>
 
 <div class="container container-fluid col-md-8 col-md-offset-2">
