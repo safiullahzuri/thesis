@@ -1,5 +1,4 @@
 <style>
-
     .myList{
         list-style: none;
         border: 2px solid black;
@@ -10,7 +9,7 @@
     .myList li:hover{
         background: red;
     }
-    div#patients{
+    div#doctors{
         width: 200px;
         float: left;
     }
@@ -34,11 +33,12 @@
 <body>
 
 <div class="container container-fluid main">
-        <div id="patients">
+
+        <div id="doctors">
             <ul class="myList">
-            <?php foreach ($patients as $patient): ?>
-                <li class="patient" data-id="<?php echo $patient->patient_id; ?>"><?php echo getPatientsName($patient->patient_id); ?></li>
-            <?php endforeach; ?>
+                <?php foreach ($doctors as $doctor): ?>
+                    <li class="doctor" data-id="<?php echo $doctor->doctor_id; ?>"><?php echo getDoctorsName($doctor->doctor_id); ?></li>
+                <?php endforeach; ?>
             </ul>
         </div>
         <div id="messages">
@@ -46,27 +46,26 @@
 
             </div>
             <div id="sendMessageDiv" style="display: none">
-                <input type="hidden" id="fromType" value="doctor" />
-                <input type="hidden" id="fromId" value="<?php echo $doctorId; ?>" />
+                <input type="hidden" id="fromType" value="patient" />
+                <input type="hidden" id="fromId" value="<?php echo $patientId; ?>" />
                 <input type="hidden" name="toId" id="toId" value="" />
                 <input type="text" class="form-control" id="message" />
                 <button class="form-control" id="sendMessageBtn">Send Message</button>
             </div>
         </div>
-    <div id="clear">
+        <div id="clear">
+
+        </div>
 
     </div>
-
-
-</div>
 
 
 </body>
 <script>
 
-    $("li.patient").click(function () {
-        var patientId = $(this).attr("data-id");
-        $("#toId").val(patientId);
+    $("li.doctor").click(function () {
+        var doctorId = $(this).attr("data-id");
+        $("#toId").val(doctorId);
         $("#sendMessageDiv").css("display", "block");
         refreshMessageDiv();
     });
@@ -102,9 +101,9 @@
     });
 
     $(document).on('keypress', function (e) {
-       if (e.which == 13){
-           sendMessage();
-       }
+        if (e.which == 13){
+            sendMessage();
+        }
     });
 
     function sendMessage() {

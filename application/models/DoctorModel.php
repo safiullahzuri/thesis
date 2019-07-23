@@ -8,6 +8,7 @@ class DoctorModel extends CI_Model
         parent::__construct();
     }
 
+
     function getDoctorImage($doctor_id){
         $this->db->where('doctor_id', $doctor_id);
         $this->db->from('doctor');

@@ -81,6 +81,13 @@ class PatientController extends CI_Controller
         $this->load->view("Patient/register");
     }
 
+    function chatPage(){
+
+        $data["doctors"] = $this->DoctorModel->getAllDoctors();
+        $data["patientId"] = $this->patient_id;
+        $this->load->view("patient/chat", $data);
+    }
+
     function deletePatient()
     {
         $id = $this->input->post("id");
