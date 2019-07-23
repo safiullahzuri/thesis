@@ -19,6 +19,8 @@ class AdminController extends CI_Controller
         }
     }
 
+
+
     function index(){
         $this->managePatients();
     }

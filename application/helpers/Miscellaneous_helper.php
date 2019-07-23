@@ -67,3 +67,13 @@ function getScanImage($scan_id){
     return $address;
 }
 
+function getDoctorImage($doctor_id){
+    $CI = & get_instance();
+    $CI->db->where('doctor_id', $doctor_id);
+    $CI->db->from('doctor');
+    $doctor = $CI->db->get()->row();
+    $image = decrypt($doctor->image);
+    $address = base_url('uploads/avatars/').$image;
+    return $address;
+}
+

@@ -8,6 +8,15 @@ class DoctorModel extends CI_Model
         parent::__construct();
     }
 
+    function getDoctorImage($doctor_id){
+        $this->db->where('doctor_id', $doctor_id);
+        $this->db->from('doctor');
+        $doctor = $this->db->get()->row();
+        $image = decrypt($doctor->image);
+        $address = base_url('uploads/avatars/').$image;
+        return $address;
+    }
+
     function getDoctorFromAppointment($appointment_id){
         $this->db->where("app_id", $appointment_id);
         $this->db->from("appointment");

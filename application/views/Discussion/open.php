@@ -12,7 +12,7 @@
             <tbody id="doctorsTb">
             <?php foreach ($discussions as $discussion): ?>
                 <tr>
-                   <td> <?php echo $discussion->scan_id; ?></td>
+                    <td><?php echo $discussion->scan_id; ?></td>
                     <td><img src="<?php echo getScanImage($discussion->scan_id); ?>" alt="Image Not Found" width="75" height="75"></td>
                     <td><?php echo getDoctorNameFromScan($discussion->scan_id); ?></td>
                     <td><a class="btn btn-info" href="<?php echo base_url('DiscussionController/createDiscussion/').$discussion->scan_id; ?>">Contribute To Discussion</a></td>

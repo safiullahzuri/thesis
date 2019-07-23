@@ -183,6 +183,18 @@ class DoctorController extends CI_Controller
         $this->load->view("doctor/my_account", $data);
     }
 
+    function chatPage(){
+
+        $data["patients"] = $this->PatientModel->getAllPatients();
+        $data["doctorId"] = $this->doctor_id;
+        $this->load->view("doctor/chat", $data);
+    }
+
+    function getImage(){
+        $id = $this->input->post("doctorId");
+        return $this->DoctorModel->getDoctorImage($id);
+    }
+
 
     function sendReports(){
         $myDiagnosis = $this->DiagnosisModel->getAllDiagnosisByDoctor($this->doctor_id);
