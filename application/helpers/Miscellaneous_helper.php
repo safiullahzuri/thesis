@@ -77,3 +77,12 @@ function getDoctorImage($doctor_id){
     return $address;
 }
 
+function getPatientImage($patient_id){
+    $CI = & get_instance();
+    $CI->db->where('patient_id', $patient_id);
+    $CI->db->from('patient');
+    $doctor = $CI->db->get()->row();
+    $image = decrypt($doctor->image);
+    $address = base_url('uploads/avatars/').$image;
+    return $address;
+}

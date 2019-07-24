@@ -10,7 +10,7 @@
     .myList li:hover{
         background: red;
     }
-    div#patients{
+    div#doctors{
         width: 200px;
         float: left;
     }
@@ -46,26 +46,26 @@
 <body>
 
 <div class="row col-md-12">
-        <div id="patients" class="col-md-4">
-            <ul class="myList">
-            <?php foreach ($patients as $patient): ?>
-                <li class="patient" data-id="<?php echo $patient->patient_id; ?>"><?php echo getPatientsName($patient->patient_id); ?></li>
+    <div id="doctors" class="col-md-4">
+        <ul class="myList">
+            <?php foreach ($doctors as $doctor): ?>
+                <li class="doctor" data-id="<?php echo $doctor->doctor_id; ?>"><?php echo getDoctorsName($doctor->doctor_id); ?></li>
             <?php endforeach; ?>
-            </ul>
-        </div>
-        <div id="messages" class="col-md-4">
-            <div id="messageBar">
-
-            </div>
+        </ul>
+    </div>
+    <div id="messages" class="col-md-4">
+        <div id="messageBar">
 
         </div>
-        <div id="sendMessageDiv" style="display: none; float: left" class="col-md-4">
-            <input type="hidden" id="fromType" value="doctor" />
-            <input type="hidden" id="fromId" value="<?php echo $doctorId; ?>" />
-            <input type="hidden" name="toId" id="toId" value="" />
-            <input type="text" class="form-control" id="message" />
-            <button class="form-control" id="sendMessageBtn">Send Message</button>
-        </div>
+
+    </div>
+    <div id="sendMessageDiv" style="display: none; float: left" class="col-md-4">
+        <input type="hidden" id="fromType" value="patient" />
+        <input type="hidden" id="fromId" value="<?php echo $patientId; ?>" />
+        <input type="hidden" name="toId" id="toId" value="" />
+        <input type="text" class="form-control" id="message" />
+        <button class="form-control" id="sendMessageBtn">Send Message</button>
+    </div>
     <div id="clear">
 
     </div>
@@ -77,9 +77,9 @@
 </body>
 <script>
 
-    $("li.patient").click(function () {
+    $("li.doctor").click(function () {
         var patientId = $(this).attr("data-id");
-        $("li.patient").css("background", "white");
+        $("li.doctor").css("background", "white");
         $(this).css("background", "blue");
         $("#toId").val(patientId);
         $("#sendMessageDiv").css("display", "block");
@@ -121,9 +121,9 @@
     });
 
     $(document).on('keypress', function (e) {
-       if (e.which == 13){
-           sendMessage();
-       }
+        if (e.which == 13){
+            sendMessage();
+        }
     });
 
     function sendMessage() {

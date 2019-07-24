@@ -4,7 +4,7 @@
 
     <div class="col-md-12">
         <div class="row">
-            <img src="<?php echo base_url('uploads/scans/').$scan->file_name; ?>" alt="Image Not Found" width="300" height="300"  >
+            <img src="<?php echo base_url('uploads/scans/').$scan->file_name; ?>" style="border: #1d2124 3px solid" alt="Image Not Found" width="400" height="400"  >
         </div>
         <?php if ($this->session->flashdata("comment_success")): ?>
             <div class="alert alert-success"><?php echo $this->session->flashdata("comment_success"); ?></div>
@@ -19,16 +19,14 @@
             </form>
         </div>
 
-        <div class="row">
+        <div class="row" >
             <?php foreach ($comments as $comment): ?>
                 <div id="annotationDiv" class="row">
                     <div id="doctorDiv">
-                        <img id="thumbnail" style="border-radius: 50%;" src="<?php echo getAddressOfDoctor($comment->scan_id); ?>" />
-                        <span><?php echo getDoctorNameFromScan($comment->scan_id); ?></span>
+                        <img id="thumbnail" src="<?php echo getAddressOfDoctor($comment->scan_id); ?>" />
+                        <span class="dname"><?php echo getDoctorNameFromScan($comment->scan_id); ?></span>
                     </div>
-
-                    <div><?php echo $comment->comment_text; ?><span class="pull-right"><?php echo $comment->comment_date    ; ?></span></div>
-
+                    <div><?php echo $comment->comment_text; ?><span class="badge badge-info date"><?php echo $comment->comment_date; ?></span></div>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -41,19 +39,34 @@
 <style>
     #annotationDiv{
         width: 100%;
-        border: red 3px;
+        border: #1d2124 3px solid;
         border-radius: 5px;
+        padding: -10px;
+    }
 
+    span.dname{
+        float: outside;
     }
 
     #doctorDiv{
-        width: 100px;
+        width: 200px;
         height: 100px;
+
+    }
+    #doctorDiv img{
+        border-radius: 50%;
+        float: left;
     }
 
     #thumbnail{
         width: 50px;
         height: 50px;
+    }
+
+    span.date{
+        float: right;
+        position: absolute;
+        right: 30px;
     }
 
 </style>

@@ -85,7 +85,7 @@ class PatientController extends CI_Controller
 
         $data["doctors"] = $this->DoctorModel->getAllDoctors();
         $data["patientId"] = $this->patient_id;
-        $this->load->view("patient/chat", $data);
+        $this->load->view("patient/new_chat", $data);
     }
 
     function deletePatient()
